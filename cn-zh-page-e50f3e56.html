@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>188bet · 信息卡导航页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f6f9fc;
+            color: #1e2b3a;
+            line-height: 1.6;
+            padding: 24px 16px 48px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* 头部 */
+        .hero {
+            background: linear-gradient(135deg, #0f3b4f 0%, #1e5f6e 100%);
+            color: white;
+            padding: 48px 28px 40px;
+            border-radius: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 28px rgba(14, 60, 80, 0.20);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 680px;
+            margin: 0 auto;
+            opacity: 0.92;
+        }
+
+        .hero .tagline {
+            display: inline-block;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 8px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* 网格卡片区域 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        @media (min-width: 640px) {
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 960px) {
+            .card-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 28px 22px 26px;
+            box-shadow: 0 4px 16px rgba(0, 30, 50, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.25s ease;
+            border: 1px solid #eaf0f4;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(18, 78, 98, 0.12);
+            border-color: #b2d1db;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: inline-block;
+            background: #e1f0f5;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 16px;
+            color: #1a5f72;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #0a3847;
+        }
+
+        .card p {
+            font-size: 0.96rem;
+            color: #2f4150;
+            flex: 1;
+        }
+
+        .card .highlight {
+            color: #0f788b;
+            font-weight: 500;
+        }
+
+        /* 适合人群卡片特殊处理 */
+        .audience-card {
+            background: #f0f8fc;
+            border-left: 6px solid #0e7e93;
+        }
+
+        .audience-card ul {
+            list-style: none;
+            margin-top: 12px;
+            padding: 0;
+        }
+
+        .audience-card li {
+            padding: 6px 0 6px 28px;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .audience-card li::before {
+            content: "·";
+            position: absolute;
+            left: 8px;
+            color: #1a8a9e;
+            font-weight: bold;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* 自然链接段落 (蓝绿色点缀) */
+        .link-section {
+            background: white;
+            border-radius: 28px;
+            padding: 32px 28px;
+            margin: 32px 0 36px;
+            box-shadow: 0 4px 14px rgba(0, 40, 60, 0.04);
+            border: 1px solid #d8e7ed;
+        }
+
+        .link-section h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: #0b4557;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .link-section h2::before {
+            content: "🔗";
+            font-size: 1.7rem;
+        }
+
+        .link-section p {
+            font-size: 1.02rem;
+            max-width: 800px;
+            color: #233a48;
+        }
+
+        .link-section a {
+            color: #0b7a8f;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid #b0dbe6;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .link-section a:hover {
+            color: #064a5a;
+            border-bottom-color: #064a5a;
+        }
+
+        /* FAQ摘要 / 提示 */
+        .faq-tips {
+            background: #ddeff3;
+            border-radius: 28px;
+            padding: 28px 28px 24px;
+            margin-bottom: 32px;
+            border: 1px solid #b7d6df;
+        }
+
+        .faq-tips h3 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            color: #083d4b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-tips h3::after {
+            content: "💡";
+            font-size: 1.4rem;
+        }
+
+        .faq-item {
+            padding: 10px 0;
+            border-bottom: 1px dashed #b0ced9;
+        }
+
+        .faq-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #0b4f61;
+            margin-bottom: 4px;
+        }
+
+        .faq-answer {
+            font-size: 0.95rem;
+            color: #1b3b48;
+        }
+
+        /* 页脚 */
+        .footer-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #627b86;
+            border-top: 1px solid #d2e2e9;
+            padding-top: 28px;
+            margin-top: 8px;
+        }
+
+        .footer-note a {
+            color: #0e6f83;
+            text-decoration: none;
+        }
+
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .hero {
+                padding: 32px 18px 30px;
+            }
+            .card {
+                padding: 20px 16px;
+            }
+            .link-section {
+                padding: 24px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <!-- 主视觉 -->
+    <div class="hero">
+        <h1>188bet · 信息导览</h1>
+        <p>一个稳定而清晰的页面说明，帮助你快速了解平台用途、适用场景与常见疑问。所有内容基于公开信息整理，保持客观与实用。</p>
+        <span class="tagline">🧭 信息卡片 · 网格阅览 · 移动端友好</span>
+    </div>
+
+    <!-- 网格卡片：用途卡片 x 3 + 适合人群 -->
+    <div class="card-grid">
+
+        <!-- 卡片 1：主要用途 -->
+        <div class="card">
+            <div class="card-icon">🎯</div>
+            <h3>综合娱乐与资讯</h3>
+            <p>平台整合了多种在线娱乐内容，涵盖体育赛事、休闲游戏及实时资讯更新。用户可根据个人兴趣浏览不同板块，界面简洁直观。</p>
+            <p style="margin-top: 12px;"><span class="highlight">稳定入口</span> · 无需额外工具即可快速加载</p>
+        </div>
+
+        <!-- 卡片 2：使用场景 -->
+        <div class="card">
+            <div class="card-icon">📱</div>
+            <h3>多终端适应场景</h3>
+            <p>无论是电脑、平板还是手机，页面均自适应布局。通勤间隙、午休时段或晚间放松时，都能获得一致的浏览体验。</p>
+            <p style="margin-top: 12px;"><span class="highlight">响应式网格</span> · 蓝绿色调护眼舒适</p>
+        </div>
+
+        <!-- 卡片 3：功能特点 -->
+        <div class="card">
+            <div class="card-icon">⚡</div>
+            <h3>轻量稳定</h3>
+            <p>页面结构经过优化，加载迅速，不堆积冗余脚本。信息层级清晰，重要内容置于卡片和自然段落中，方便快速定位。</p>
+            <p style="margin-top: 12px;"><span class="highlight">卡片式呈现</span> · 信息一目了然</p>
+        </div>
+
+        <!-- 适合人群 (横跨两列？通过grid自动占位，可在3列时单独占位, 这里不强制) -->
+        <div class="card audience-card">
+            <div class="card-icon">👥</div>
+            <h3>适合这些朋友</h3>
+            <ul>
+                <li>希望快速了解平台概况的新访客</li>
+                <li>偏好卡片化阅读、不爱长篇大论的用户</li>
+                <li>在移动端浏览居多，需要稳定响应式的体验</li>
+                <li>寻找清晰导航与FAQ摘要的日常使用者</li>
+            </ul>
+        </div>
+
+        <!-- 额外卡片：说明性质   保持网格填充 -->
+        <div class="card">
+            <div class="card-icon">📋</div>
+            <h3>页面说明</h3>
+            <p>本页为信息介绍与索引页，所有描述均基于平台公开内容整理。不包含引导性承诺，仅提供客观功能摘要。</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🔄</div>
+            <h3>持续迭代</h3>
+            <p>卡片内容与FAQ会根据平台更新进行补充，保持信息时效性。建议定期回看，获取最新摘要。</p>
+        </div>
+    </div>
+
+    <!-- 自然链接段落 (使用a标签指向https://cn-zh-188bet.com，文本严格等于188bet) -->
+    <div class="link-section">
+        <h2>直接访问</h2>
+        <p>
+            如果你希望了解更完整的功能模块与最新动态，可以前往 
+            <a href="https://cn-zh-188bet.com">188bet</a> 
+            浏览。该页面提供了更详尽的分类和实时内容，适合深度探索。无论是初次接触还是老用户，都能找到适合自己的信息入口。
+        </p>
+        <p style="margin-top: 18px;">
+            同时，你也可以将本页作为快速参考，结合卡片与FAQ，形成对平台的初步印象。两种方式互补，灵活使用。
+        </p>
+    </div>
+
+    <!-- FAQ 摘要 / 提示 -->
+    <div class="faq-tips">
+        <h3>常见问题摘要</h3>
+        <div class="faq-item">
+            <div class="faq-question">页面加载是否稳定？</div>
+            <div class="faq-answer">是的，采用轻量化结构与CDN资源，日常访问流畅。建议保持网络通畅。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">移动端体验如何？</div>
+            <div class="faq-answer">完全适配手机与平板，卡片自动排列，按钮与链接尺寸适合触控。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">内容更新频率？</div>
+            <div class="faq-answer">信息摘要按季度复核，重大变化会及时调整卡片与说明。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">如何快速找到入口？</div>
+            <div class="faq-answer">页面中部的“直接访问”段落包含指向 
+                <a href="https://cn-zh-188bet.com" style="color:#0b6f82; text-decoration: underline; border-bottom: none;">188bet</a> 
+                的链接，点击即可跳转。
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部简单声明 -->
+    <div class="footer-note">
+        <p>信息卡片页 · 基于公开资料整理 · 仅供说明参考</p>
+        <p style="margin-top: 8px; font-size: 0.8rem; opacity: 0.7;">反馈与建议 · 保持中立与实用</p>
+    </div>
+
+</div>
+</body>
+</html>
